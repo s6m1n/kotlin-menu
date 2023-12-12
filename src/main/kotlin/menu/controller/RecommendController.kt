@@ -2,13 +2,14 @@ package menu.controller
 
 import menu.model.Board
 import menu.model.Menus
+import menu.model.WeekCategory
 import menu.view.InputConsole
 import menu.view.OutputConsole
 
 class RecommendController(private val inputConsole: InputConsole, private val outputConsole: OutputConsole) {
 
-    private val board = Board(mutableMapOf())
-
+    val weekCategory = WeekCategory()
+    private val board = Board(mutableMapOf(),weekCategory.setCategory())
     fun start() {
         outputConsole.startPrompt()
         initCoachNameAndAvoidMenus()
