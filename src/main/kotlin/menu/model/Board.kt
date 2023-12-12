@@ -13,8 +13,12 @@ class Board(private val userBoard: MutableMap<Coach, MutableList<String>> = muta
                     "[ 카테고리 | 한식 | 한식 | 일식 | 중식 | 아시안 ]"
         )
         userBoard.entries.forEach {
+//            val recommendedMenusWithCategory = it.value.map { recommendMenu -> "${recommendMenu}(${Categories.findCategoryByMenuName(recommendMenu).label})" }
+//            val final = recommendedMenusWithCategory.joinToString(separator = " | ")
+//            println("[ ${it.key.name} | $final ]")
             val recommendedMenus = it.value.joinToString(separator = " | ")
             println("[ ${it.key.name} | $recommendedMenus ]")
+
         }
 //        userBoard.entries.forEach { println("${it.key.name}가 못먹는 메뉴는 ${it.key.avoidMenu}이므로 ${it.value}를 추천합니다!") }
     }
@@ -25,7 +29,7 @@ class Board(private val userBoard: MutableMap<Coach, MutableList<String>> = muta
         }
     }
 
-    fun recommend() {
+    private fun recommend() {
         userBoard.forEach {
             val category = recommendCategory(it)
             val menu = getValidMenu(category, it.key, it.value)
