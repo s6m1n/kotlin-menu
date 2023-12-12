@@ -8,8 +8,12 @@ enum class Categories(val index: Int, val label: String, val menus: List<String>
     WESTERN(5, "양식", listOf("라자냐", "그라탱", "뇨끼", "끼슈", "프렌치 토스트", "바게트", "스파게티", "피자", "파니니"));
 
     companion object {
-        fun findCategories(number: Int): Categories {
-            return entries.find { it.index == number } ?: throw IllegalArgumentException("올바른 카테고리 숫자가 아닙니다")
+        fun findCategoryByIndex(number: Int): Categories {
+            return entries.find { it.index == number } ?: throw IllegalArgumentException("[ERROR] 올바른 카테고리 숫자가 아닙니다")
+        }
+
+        fun findCategoryByMenuName(menuName: String): Categories {
+            return entries.find { it.menus.contains(menuName) } ?: throw IllegalArgumentException("[ERROR] 존재하지 않는 메뉴입니다")
         }
 
         fun getAllMenus(): List<String> {

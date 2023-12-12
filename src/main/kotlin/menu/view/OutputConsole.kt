@@ -12,4 +12,12 @@ class OutputConsole {
     fun avoidMenuPrompt(name: String) {
         println("\n${name}(이)가 못 먹는 메뉴를 입력해 주세요.")
     }
+
+    fun recommendResultPrompt() {
+        println("\n메뉴 추천 결과입니다.")
+    }
+
+    fun finishPrompt() {
+        println("\n추천을 완료했습니다.")
+    }
 }

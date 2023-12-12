@@ -11,6 +11,10 @@ class Recommender(private val inputConsole: InputConsole, private val outputCons
     fun start() {
         outputConsole.startPrompt()
         initCoach()
+        board.applyWeedDay()
+        outputConsole.recommendResultPrompt()
+        board.printBoard()
+        outputConsole.finishPrompt()
     }
 
     private fun initCoach() {
@@ -19,7 +23,6 @@ class Recommender(private val inputConsole: InputConsole, private val outputCons
             val avoidMenus = getAvoidMenus(name)
             board.setCoachInfo(name, avoidMenus)
         }
-        board.printBoard()
     }
 
     private fun getValidCoachNames(): List<String> {
