@@ -8,14 +8,17 @@ class Board(private val userBoard: MutableMap<Coach, MutableList<String>> = muta
     }
 
     fun printBoard() {
-        println("[ 구분 | 월요일 | 화요일 | 수요일 | 목요일 | 금요일 ]\n" +
-                "[ 카테고리 | 한식 | 한식 | 일식 | 중식 | 아시안 ]")
+        println(
+            "[ 구분 | 월요일 | 화요일 | 수요일 | 목요일 | 금요일 ]\n" +
+                    "[ 카테고리 | 한식 | 한식 | 일식 | 중식 | 아시안 ]"
+        )
         userBoard.entries.forEach {
             val recommendedMenus = it.value.joinToString(separator = " | ")
             println("[ ${it.key.name} | $recommendedMenus ]")
         }
 //        userBoard.entries.forEach { println("${it.key.name}가 못먹는 메뉴는 ${it.key.avoidMenu}이므로 ${it.value}를 추천합니다!") }
     }
+
     fun applyWeedDay() {
         repeat(5) {
             recommend()
@@ -25,6 +28,8 @@ class Board(private val userBoard: MutableMap<Coach, MutableList<String>> = muta
     fun recommend() {
         userBoard.forEach {
             val category = recommendCategory(it)
+            val menu = getValidMenu(category, it.key, it.value)
+            it.value.add(menu)
         }
     }
 
@@ -52,5 +57,17 @@ class Board(private val userBoard: MutableMap<Coach, MutableList<String>> = muta
             if (2 <= cnt) return false
         }
         return true
+    }
+
+    private fun getValidMenu(category: Categories, coach: Coach, recommendedMenus: MutableList<String>): String {
+        var randomMenu: String
+        do {
+            randomMenu = Randoms.shuffle(category.menus)[0]
+        } while (!isValidMenu(randomMenu, recommendedMenus))
+        return randomMenu
+    }
+
+    private fun isValidMenu(randomMenu: String, recommendedMenus: MutableList<String>): Boolean {
+        return !recommendedMenus.contains(randomMenu)
     }
 }
