@@ -67,11 +67,13 @@ class Board(private val userBoard: MutableMap<Coach, MutableList<String>> = muta
         var randomMenu: String
         do {
             randomMenu = Randoms.shuffle(category.menus)[0]
-        } while (!isValidMenu(randomMenu, recommendedMenus))
+        } while (!isValidMenu(randomMenu, coach, recommendedMenus))
         return randomMenu
     }
 
-    private fun isValidMenu(randomMenu: String, recommendedMenus: MutableList<String>): Boolean {
-        return !recommendedMenus.contains(randomMenu)
+    private fun isValidMenu(randomMenu: String, coach: Coach, recommendedMenus: MutableList<String>): Boolean {
+        val isNotContainAvoidMenu = coach.avoidMenu.any { recommendedMenus.contains(it) }
+        val isNotDuplicated = recommendedMenus.contains(randomMenu)
+        return !(isNotDuplicated || isNotContainAvoidMenu)
     }
 }
