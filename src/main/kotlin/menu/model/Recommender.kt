@@ -2,26 +2,25 @@ package menu.model
 
 import camp.nextstep.edu.missionutils.Randoms
 
-class Board(
-    private val userBoard: MutableMap<Coach, MutableList<String>> = mutableMapOf(),
+class Recommender(
+    private val userInfo: MutableMap<Coach, MutableList<String>> = mutableMapOf(),
     private val weekCategory: List<Category>
 ) {
 
     fun setCoachInfo(name: String, avoidMenus: List<String>) {
-        userBoard[Coach(name, avoidMenus)] = mutableListOf()
+        userInfo[Coach(name, avoidMenus)] = mutableListOf()
     }
 
-    fun printBoard() {
+    fun printRecommend() {
         val categoryString = weekCategory.map { it.label }.joinToString(separator = " | ")
         println(
             "[ 구분 | 월요일 | 화요일 | 수요일 | 목요일 | 금요일 ]\n" +
                     "[ 카테고리 | $categoryString ]"
         )
-        userBoard.entries.forEach {
+        userInfo.entries.forEach {
             val recommendedMenus = it.value.joinToString(separator = " | ")
             println("[ ${it.key.name} | $recommendedMenus ]")
         }
-//        userBoard.entries.forEach { println("${it.key.name}가 못먹는 메뉴는 ${it.key.avoidMenu}이므로 ${it.value}를 추천합니다!") }
     }
 
     fun applyWeedDay() {
@@ -31,7 +30,7 @@ class Board(
     }
 
     private fun recommend(category: Category) {
-        userBoard.forEach {
+        userInfo.forEach {
             val menu = getValidMenu(category, it.key.avoidMenu, it.value)
             it.value.add(menu)
         }
@@ -45,7 +44,6 @@ class Board(
         var randomMenu: String
         do {
             randomMenu = Randoms.shuffle(category.menus)[0]
-//            print("$randomMenu - ")
         } while (isInvalidMenu(randomMenu, avoidMenus, history))
         return randomMenu
     }

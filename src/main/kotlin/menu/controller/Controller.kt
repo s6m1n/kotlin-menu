@@ -1,21 +1,21 @@
 package menu.controller
 
-import menu.model.Board
+import menu.model.Recommender
 import menu.model.Menus
 import menu.model.WeekCategory
 import menu.view.InputConsole
 import menu.view.OutputConsole
 
-class RecommendController(private val inputConsole: InputConsole, private val outputConsole: OutputConsole) {
+class Controller(private val inputConsole: InputConsole, private val outputConsole: OutputConsole) {
 
-    val weekCategory = WeekCategory()
-    private val board = Board(mutableMapOf(),weekCategory.setCategory())
+    private val weekCategory = WeekCategory()
+    private val recommender = Recommender(mutableMapOf(),weekCategory.setCategory())
     fun start() {
         outputConsole.startPrompt()
         initCoachNameAndAvoidMenus()
-        board.applyWeedDay()
+        recommender.applyWeedDay()
         outputConsole.recommendResultPrompt()
-        board.printBoard()
+        recommender.printRecommend()
         outputConsole.finishPrompt()
     }
 
@@ -25,7 +25,7 @@ class RecommendController(private val inputConsole: InputConsole, private val ou
         names.forEach { name ->
             outputConsole.avoidMenuPrompt(name)
             val avoidMenus = getValidAvoidMenus()
-            board.setCoachInfo(name, avoidMenus)
+            recommender.setCoachInfo(name, avoidMenus)
         }
     }
 
